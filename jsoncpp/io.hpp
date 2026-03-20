@@ -81,6 +81,9 @@ namespace goofy
 		return (true);
 	};
 	
+	/**
+	 * @brief this is basic reading to a std::ofstream buff
+	 **/
 	auto
 	stream_write (std::ofstream & into) -> void
 	{
@@ -98,6 +101,9 @@ namespace goofy
 		writer->write(root, &into);
 	};
 
+	/**
+	 * @brief this is just a basic reading into a string.
+	 **/
 	auto
 	string_write (std::string & into) -> void
 	{
