@@ -1,5 +1,5 @@
-#ifndef _GOOFY_CPP_JSONCPP_IO
-# define _GOOFY_CPP_JSONCPP_IO
+#ifndef GOOFY_CPP_JSONCPP_IO
+# define GOOFY_CPP_JSONCPP_IO
 
 #include <json/json.h>
 
@@ -8,9 +8,9 @@ namespace goofy
 	void stream_write(std::ofstream &);
 	void string_write(std::string &);
 
-	bool read_from_stream (const std::string &, const Json::Value &); 
+	bool read_from_stream (const std::string &, const Json::Value &);
 	bool read_string (const std::string &, const Json::Value &); 
-};
+}
 
 #ifdef GOOFY_CPP_JSONCPP_IO_IMPL
 
@@ -24,7 +24,7 @@ namespace goofy
 	 * @return {bool}	if boolean value is false it means it caught an internal error while parsing
 	 *			otherwise it will return true.
 	 **/
-	auto	
+	inline auto
 	read_from_stream (const std::string & filePath, Json::Value & into) -> bool
 	{
 		std::ifstream ifs;
@@ -36,22 +36,22 @@ namespace goofy
 		if ( !Json::parseFromStream ( builder, ifs, &into, &errs ) )
 		{
 			std::cout << errs << '\n';
-			return (false);
+			return false;
 		}
 
 		std::cout << into << "\n";
-		return (true);
+		return true;
 	};
 	
 	/**
-	 * @brief		reading JSON data from a string (which inheritely is the same as from a file, but doesn't use fd)
+	 * @brief		reading JSON data from a string (which inherit is the same as from a file, but doesn't use fd)
 	 * @return {bool}	if parsing failed it can get caught in the New Way, in the old way it just sneakily failed
 	 *			returns true, when parsing successfully went through
 	 **/
-	auto
+	inline auto
 	read_string (const std::string & from, Json::Value & into) -> bool
 	{
-		const auto raw_json_length = static_cast<std::size_t>(from.length());
+		const auto raw_json_length = from.length();
 
 		JSONCPP_STRING err;
 		
@@ -59,7 +59,7 @@ namespace goofy
 			std::cout << "\nOld Way\n";
 			Json::Reader reader;
 			reader.parse(from, into);
-		};
+		}
 		
 		std::cout << into << '\n';
 
@@ -67,24 +67,24 @@ namespace goofy
 
 		{
 			std::cout << "\nNew Way\n";
-			Json::CharReaderBuilder builder;
-			const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
+			const Json::CharReaderBuilder builder;
 
-			if (!reader->parse(from.c_str(), from.c_str() + raw_json_length, &into, &err))
+			if (const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
+				!reader->parse(from.c_str(), from.c_str() + raw_json_length, &into, &err))
 			{
 				std::cout << err << '\n';
-				return (false);
-			};
-		};
+				return false;
+			}
+		}
 
 		std::cout << into << '\n';
-		return (true);
-	};
+		return true;
+	}
 	
 	/**
 	 * @brief this is basic reading to a std::ofstream buff
 	 **/
-	auto
+	inline auto
 	stream_write (std::ofstream & into) -> void
 	{
 		Json::Value root;
@@ -99,12 +99,12 @@ namespace goofy
 		const std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
 
 		writer->write(root, &into);
-	};
+	}
 
 	/**
 	 * @brief this is just a basic reading into a string.
 	 **/
-	auto
+	inline auto
 	string_write (std::string & into) -> void
 	{
 		Json::Value root;
@@ -133,8 +133,8 @@ namespace goofy
 		}
 		
 		into = json_file;
-	};
-};
+	}
+}
 
 #endif
 #endif
