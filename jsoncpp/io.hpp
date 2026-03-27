@@ -20,7 +20,7 @@ namespace goofy
 namespace goofy 
 {
 	/**
-	 * @brief		reading json file from stream, allowing to also collect comments or not
+	 * @brief		reading JSON file from stream, allowing to also collect comments or not
 	 * @return {bool}	if boolean value is false it means it caught an internal error while parsing
 	 *			otherwise it will return true.
 	 **/
