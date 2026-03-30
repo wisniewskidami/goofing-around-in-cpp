@@ -2,11 +2,6 @@
 #define LIBWEBSOCKETS_EXAMPLE_LWSHTTPSERVER_CLASS_HPP
 
 #include <libwebsockets.h>
-#include <string>
-#include <cstring>
-#include <csignal>
-#include <iostream>
-#include <mutex>
 
 enum SwitchType
 {
@@ -19,8 +14,31 @@ class LwsHttpServer
 {
 	private:
 		bool interrupted;
+		/*
+		 * @brief it's just a type holder for void * that will be instantiated in runtime
+		 *		  after you provide creation information.
+		 */
 		lws_context * context;
+		/*
+		 * @brief  : lws_http_mount struct is kinda self-explanatory
+		 * @detail : it mounts entries that we put in, see setupMount inmpl.
+		 */
 		lws_http_mount mount{};
+		/*
+		 * @brief : look at definition and read
+		 * @copy  : parameters to create context and/ or vhost with
+		 *
+		 *			this is also used to create vhost ... if LWS_SERVER_OPTION_EXPLICIT_VHOSTS
+		 *			is not given, then for backwards compatibility one vhost is created at
+		 *			context-creation time using the info from this struct
+		 *
+		 *			if LWS_SERVER_OPTION_EXPLICIT_VHOST is given, then no vhost are created
+		 *			at the same time as context, they are expected to be created afterward.
+		 *
+		 * @detail: you define interface, protocols, extensions, log_filepath, mounts (if used)
+		 *			port, proxy port (if used), ssl cert (if used), tls session (if used),
+		 *			gid uid options...
+		 */
 		lws_context_creation_info info{};
 		int log_level;
 
