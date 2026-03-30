@@ -32,6 +32,7 @@ namespace goofy
 		Json::CharReaderBuilder builder;
 
 		ifs.open(filePath);
+
 		builder["collectComments"] = true;
 		if ( !Json::parseFromStream ( builder, ifs, &into, &errs ) )
 		{

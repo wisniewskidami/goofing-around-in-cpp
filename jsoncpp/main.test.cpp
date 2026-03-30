@@ -7,9 +7,10 @@
 Test(read_from_stream, assertion)
 {
 	Json::Value root;
-	goofy::read_from_stream("test.json", root);
+	const bool result = goofy::read_from_stream("test.json", root);
 
-	cr_assert_neq(Json::Value{}, root);
+	cr_assert(result, "Failed to parse JSON");
+	cr_assert(!root.empty(), "Root should not be empty");
 }
 
 Test(read_string, assert_dominance)
